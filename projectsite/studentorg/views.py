@@ -6,18 +6,20 @@ from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from studentorg.models import Organization, Student, OrgMember, College, Program
 from studentorg.forms import OrganizationForm, StudentForm, OrgMemberForm, CollegeForm, ProgramForm
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from typing import Any
 from django.db.models.query import QuerySet
 from django.db.models import Q
 
 
-
+@method_decorator(login_required, name='dispatch')
 class HomePageView(ListView):
     model = Organization
     context_object_name = 'home'
     template_name = "home.html"
 
-class OrganizationUpdateView(UpdateView):
+class OrganizationUpdateView(UpdateView):   
     model = Organization
     form_class = OrganizationForm
     template_name = 'org_edit.html'
